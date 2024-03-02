@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/styles";
 import { useEffect } from "react";
-import {
-  CardNumberElement,
-  CardCvcElement,
-  CardExpiryElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+// import {
+//   CardNumberElement,
+//   CardCvcElement,
+//   CardExpiryElement,
+//   useStripe,
+//   useElements,
+// } from "@stripe/react-stripe-js";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -23,8 +23,8 @@ const Payment = () => {
   const { user } = useSelector((state) => state.user);
   const flw  = useSelector((state) => state.flw);
   const navigate = useNavigate();
-  const stripe = useStripe();
-  const elements = useElements();
+  //const stripe = useStripe();
+  //const elements = useElements();
 
   useEffect(() => {
     const orderData = JSON.parse(localStorage.getItem("latestOrder"));

@@ -58,11 +58,28 @@ const EditProduct = () => {
     }
   }, [dispatch, error, success]);
 
-  const handleImageChange = (e) => {
-    e.preventDefault();
+  // const handleImageChange = (e) => {
+  //   e.preventDefault();
 
-    let files = Array.from(e.target.files);
-    setImages((prevImages) => [...prevImages, ...files]);
+  //   let files = Array.from(e.target.files);
+  //   setImages((prevImages) => [...prevImages, ...files]);
+  // };
+
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+
+    setImages([]);
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImages((old) => [...old, reader.result]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
   console.log(images);
@@ -83,7 +100,19 @@ const EditProduct = () => {
     newForm.append("discountPrice", discountPrice);
     newForm.append("stock", stock);
     newForm.append("shopId", seller._id);
-    dispatch(createProduct(newForm));
+    dispatch(
+      createProduct({
+        name,
+        description,
+        category,
+        tags,
+        originalPrice,
+        discountPrice,
+        stock,
+        shopId: seller._id,
+        images,
+      })
+    );
   };
 
   return (
@@ -213,7 +242,7 @@ const EditProduct = () => {
             {images &&
               images.map((i) => (
                 <img
-                  src={`${backend_url}${i}`}
+                  src={`${i}`}
                   key={i}
                   alt=""
                   className="h-[120px] w-[120px] object-cover m-2"
